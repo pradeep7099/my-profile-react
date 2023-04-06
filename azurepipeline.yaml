@@ -21,3 +21,29 @@ steps:
       rootFolderOrFile: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     displayName: Publish Artifact
+    
+##Deploymentpipeline###
+---
+steps:
+  - task: ExtractFiles@1
+    displayName: "Extract files "
+    inputs:
+      archiveFilePatterns: "**/$(Build.BuildId).zip"
+      destinationFolder: $(System.DefaultWorkingDirectory)/$(Build.BuildId)
+      
+      ---
+steps:
+  - task: AzureCLI@2
+    displayName: "Azure CLI "
+    inputs:
+      azureSubscription: Pay-As-You-Go (0c4bb8f8-40ca-43b1-b3a9-a059d5fc794f)
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: >
+        az storage blob upload-batch -s ./ -d '$web'  \
+
+        --account-name sampleazurestatichost  \
+
+        --account-key \
+         swIT79oOFSvL2huMcp30c046Cc/wGKrsp6kWtnmrLAIWmiEmHoSHW2x2tePxSChJ6D1qZZEXmE7C+AStE+a6dg==
+      workingDirectory: $(System.DefaultWorkingDirectory)/$(Build.BuildId)/a/
