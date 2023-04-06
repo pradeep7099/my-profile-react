@@ -21,8 +21,7 @@ steps:
       rootFolderOrFile: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     displayName: Publish Artifact
-    
-##Deploymentpipeline###
+
 ---
 steps:
   - task: ExtractFiles@1
@@ -30,9 +29,6 @@ steps:
     inputs:
       archiveFilePatterns: "**/$(Build.BuildId).zip"
       destinationFolder: $(System.DefaultWorkingDirectory)/$(Build.BuildId)
-      
-      ---
-steps:
   - task: AzureCLI@2
     displayName: "Azure CLI "
     inputs:
